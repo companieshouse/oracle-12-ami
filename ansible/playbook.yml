@@ -1,0 +1,10 @@
+---
+- hosts: oracle-12
+  become: true
+  gather_facts: yes
+  roles:
+    - role: ch_collections.base.nagios_nrpe_client
+    - role: oracle-12
+
+
+  
