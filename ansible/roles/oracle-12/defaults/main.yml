@@ -6,9 +6,6 @@ aws_s3_release_object_paths:
 aws_s3_release_bucket_access_key: ""
 aws_s3_release_bucket_secret_key: ""
 
-# response_file: "oui12102.rsp"
-# response_file_url: "https://oracle-base.com/articles/vm/images/aws-ec2-oracle/"
-
 oracle_groups:
   - gid: 54321 
     name: oinstall

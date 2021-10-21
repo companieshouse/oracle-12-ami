@@ -169,10 +169,6 @@
       export CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
 
 - name: Download response file
-  # get_url:
-  #   url: "{{ response_file_url }}{{ response_file }}"
-  #   dest: "/tmp/{{ response_file }}"
-  #   mode: '0755'
   ansible.builtin.copy:
     src: oui12102.rsp
     dest: /tmp/
