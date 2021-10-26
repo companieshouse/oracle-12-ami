@@ -15,6 +15,7 @@
         dest: "{{ ansible_deploy_playbook_directory }}/{{ item | basename}}"
         mode: 0755
       with_fileglob:
+        - "deployment/*"
 
     - name: Setup deployment playbook dependancies (2/2)
       command: "/usr/local/bin/ansible-galaxy install -f -r {{ansible_deploy_playbook_directory}}/requirements.yml"
