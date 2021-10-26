@@ -77,3 +77,5 @@ oracle_prequisite_packages:
   - unixODBC-devel
   - zlib-devel
   - zlib-devel.i686
+
+ansible_deploy_playbook_directory: "/root"
