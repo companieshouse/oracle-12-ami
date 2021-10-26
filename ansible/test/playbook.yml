@@ -15,4 +15,19 @@
       provision_docker_inventory: "{{ inventory }}"
       provision_docker_privileged: True
 
+- hosts: oracle-12
+  become: true
+  gather_facts: yes
+  pre_tasks:
+    - name: Updating System Packages Before Ansible Run
+      yum:
+        name: '*'
+        state: latest
+    - name: Install required packages not present from base AMI
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - git
+
 - import_playbook: ../playbook.yml

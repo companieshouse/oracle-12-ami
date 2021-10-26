@@ -1,0 +1,12 @@
+---
+  - name: Deployment
+    hosts: localhost
+    gather_facts: true
+    collections:
+      - ch_collections.base
+    vars:
+    roles:
+      - role: /root/roles/nfs_mounts
+        when: mounts is defined
+      - name: ch_collections.base.cloudwatch_agent_config
+        when: cw_log_files is defined or cw_collect_metrics is defined     
