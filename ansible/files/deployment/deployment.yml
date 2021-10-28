@@ -2,6 +2,7 @@
   - name: Deployment
     hosts: localhost
     gather_facts: true
+    become: true
     collections:
       - ch_collections.base
     vars:
@@ -9,4 +10,17 @@
       - role: /root/roles/nfs_mounts
         when: mounts is defined
       - name: ch_collections.base.cloudwatch_agent_config
-        when: cw_log_files is defined or cw_collect_metrics is defined     
+        when: cw_log_files is defined or cw_collect_metrics is defined
+    tasks: 
+      - name: Set Hostname (1/2)
+        ansible.builtin.lineinfile:
+          line: "{{ item }} {{ hostname }}.{{ domain }} {{ hostname }}"
+          regex: "^{{ item | regex_escape() }}.*$"
+          path: "/etc/hosts"
+        loop:
+          - "{{ ansible_facts['all_ipv4_addresses'] }}"
+
+      - name: Set Hostname (2/2)
+        ansible.builtin.hostname:
+          name: "{{ hostname }}.{{ domain }}"
+          strategy: systemd
