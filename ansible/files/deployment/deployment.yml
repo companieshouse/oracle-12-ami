@@ -23,4 +23,4 @@
       - name: Set Hostname (2/2)
         ansible.builtin.hostname:
           name: "{{ hostname }}.{{ domain }}"
-          strategy: systemd
+          use: systemd
