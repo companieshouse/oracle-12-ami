@@ -23,7 +23,8 @@ oracle_users:
       - oinstall
 
 oracle_prequisite_packages:
-  - bc
+  - java-1.8.0-openjdk
+  - lvm2
   - binutils
   - elfutils-libelf
   - elfutils-libelf-devel
