@@ -3,6 +3,7 @@
   become: true
   gather_facts: yes
   roles:
+    - role: ch_collections.base.os_package_control
     - role: ch_collections.base.nagios_nrpe_client
     - role: oracle-12
     - role: ch_collections.heritage_services.nfs
