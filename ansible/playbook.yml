@@ -2,23 +2,37 @@
 - hosts: oracle-12
   become: true
   gather_facts: yes
+  collections:
+    - ch_collections.base
   roles:
     - role: ch_collections.base.os_package_control
     - role: ch_collections.base.nagios_nrpe_client
     - role: oracle-12
+      vars:
+        install_oracle: "{{ ! SSM }}"
+        update_packages: "{{ ! SSM }}"
+        update_aws_cli: "{{ ! SSM }}"
     - role: ch_collections.heritage_services.nfs
       vars: 
         install_watcher_service: false
   tasks: 
-    - name: Copy Deployment files to host
-      copy:
-        src: "{{ item }}"
-        dest: "{{ ansible_deploy_playbook_directory }}/{{ item | basename}}"
-        mode: 0755
-      with_fileglob:
-        - "deployment/*"
+    - name: Setup deploy playbook and dependancies for first run
+      block:
+        - name: Copy Deployment files to host for first run
+          copy:
+            src: "{{ item }}"
+            dest: "{{ ansible_deploy_playbook_directory }}/{{ item | basename}}"
+            mode: 0755
+          with_fileglob:
+            - "deployment/*"
 
-    - name: Setup deployment playbook dependancies (2/2)
-      command: "/usr/local/bin/ansible-galaxy install -f -r {{ansible_deploy_playbook_directory}}/requirements.yml"
-      register: requirements_output
-      changed_when: '"was installed successfully" in requirements_output.stdout'
+        - name: Setup deployment playbook dependancies for first run
+          command: "/usr/local/bin/ansible-galaxy install -f -r {{ansible_deploy_playbook_directory}}/requirements.yml"
+          register: requirements_output
+          changed_when: '"was installed successfully" in requirements_output.stdout'
+      when: ! SSM
+
+# When play is run from SSM, include deployment playbook so we run all stages
+- name: Import Deploy playbook
+  import_playbook: ./files/deployment/playbook.yml
+  when: SSM

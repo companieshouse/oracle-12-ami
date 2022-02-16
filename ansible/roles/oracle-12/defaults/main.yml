@@ -80,3 +80,7 @@ oracle_prequisite_packages:
   - zlib-devel.i686
 
 ansible_deploy_playbook_directory: "/root"
+
+update_packages: no
+update_only_security_packages: no
+update_aws_cli: no
