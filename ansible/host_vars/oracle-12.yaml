@@ -4,6 +4,7 @@ additional_packages:
   - xclock
 
 ## Nagios Variables
+
 auto_register_client: true
 auto_deregister_client: false
 nagios_host: nagios.sharedservices.aws.internal
@@ -37,3 +38,6 @@ nrpe_command:
   check_users:
     script: check_users
     option: $ARG1$
+
+#Variable to control flow of playbook, false assumes running in AMI build mode, true is for run via SSM on live server.
+SSM: false
