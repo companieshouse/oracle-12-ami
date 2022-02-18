@@ -1,5 +1,5 @@
 ---
-- hosts: oracle-12
+- hosts: all
   become: true
   gather_facts: yes
   collections:
@@ -9,9 +9,11 @@
     - role: ch_collections.base.nagios_nrpe_client
     - role: oracle-12
       vars:
-        install_oracle: "{{ ! SSM }}"
-        update_packages: "{{ ! SSM }}"
-        update_aws_cli: "{{ ! SSM }}"
+        #Default to install when building AMI, and don't install in SSM runs for safety. 
+        #Extra vars take priority this so can be easily overridden per run as required
+        install_oracle: "{{ not SSM }}"
+        update_packages: "{{ not SSM }}"
+        update_aws_cli: "{{ not SSM }}"
     - role: ch_collections.heritage_services.nfs
       vars: 
         install_watcher_service: false
@@ -30,9 +32,5 @@
           command: "/usr/local/bin/ansible-galaxy install -f -r {{ansible_deploy_playbook_directory}}/requirements.yml"
           register: requirements_output
           changed_when: '"was installed successfully" in requirements_output.stdout'
-      when: ! SSM
-
-# When play is run from SSM, include deployment playbook so we run all stages
-- name: Import Deploy playbook
-  import_playbook: ./files/deployment/playbook.yml
-  when: SSM
+      #Don't run in SSM runs, unneeded as we have this in download package
+      when: not SSM

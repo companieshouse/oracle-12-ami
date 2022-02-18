@@ -6,12 +6,12 @@
 
 - name: Create RHEL8 Oracle Linux repo
   yum_repository:
-    name: "Oracle Linux $releasever Latest (x86_64)"
+    name: "oraclelinux8"
     description: ol8_latest
     file: ol8-temp
     baseurl: http://yum.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64
     gpgcheck: yes
-    gpg_key: "https://yum.oracle.com/RPM-GPG-KEY-oracle-ol8"
+    gpgkey: "https://yum.oracle.com/RPM-GPG-KEY-oracle-ol8"
     enabled: yes
     state: present
 
