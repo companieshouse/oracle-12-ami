@@ -23,7 +23,7 @@
 
       - name: Set Hostname (1/2)
         ansible.builtin.lineinfile:
-          line: "{{ item }} {{ instance_tags.Name }}.{{ instance_tags.Domain }} {{ instance_tags.Name }}"
+          line: "{{ item }} {{ instance_tags.tags.Name }}.{{ instance_tags.tags.Domain }} {{ instance_tags.tags.Name }}"
           regex: "^{{ item | regex_escape() }}.*$"
           path: "/etc/hosts"
         loop:
@@ -31,5 +31,5 @@
 
       - name: Set Hostname (2/2)
         ansible.builtin.hostname:
-          name: "{{ instance_tags.Name }}.{{ instance_tags.Domain }}"
+          name: "{{ instance_tags.tags.Name }}.{{ instance_tags.tags.Domain }}"
           use: systemd
