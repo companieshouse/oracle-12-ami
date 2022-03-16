@@ -33,6 +33,17 @@
     name: "{{ oracle_prequisite_packages }}"
     state: present
 
+- name: Remove default session timeouts
+  ansible.builtin.file: 
+    name: /etc/profile.d/tmout.sh
+    state: absent
+
+- name: Remove default session timeouts (2/2)
+  ansible.builtin.lineinfile:  
+    line: "ClientAliveCountMax {{ ClientAliveCountMax }}"
+    path: /etc/ssh/sshd_config
+    regexp: '^ClientAliveCountMax.*$'
+
 - name: Create Oracle sysctl config
   ansible.builtin.template:
     src: files/98-oracle.conf
@@ -61,7 +72,6 @@
     groups: "{{ item.groups }}"
     append: yes
   loop: "{{ oracle_users }}"
-
 
 - name: Check if AWS ClI executable exists
   stat: 
@@ -107,7 +117,7 @@
     state: directory
     recurse: yes
     owner: oracle
-    group: oinstall
+    group: oracle
     mode: '0755'
   loop: 
     - /u01/app/oracle/product/12.1.0.2/db_1
@@ -150,26 +160,6 @@
         group: oracle
       loop: "{{ aws_s3_release_object_paths }}"
   when: (ansible_virtualization_type != "docker") and ( install_oracle ) 
-
-- name: Template oracle profile
-  ansible.builtin.blockinfile:
-    dest: "/home/oracle/.bash_profile"
-    owner: oracle
-    group: oracle
-    mode: '0640'
-    block: |
-      # Oracle Settings
-      export TMP=/tmp
-      export TMPDIR=$TMP
-      export ORACLE_HOSTNAME=REPLACEME
-      export ORACLE_UNQNAME=cdb1
-      export ORACLE_BASE=/u01/app/oracle
-      export ORACLE_HOME=$ORACLE_BASE/product/12.1.0.2/db_1
-      export ORACLE_SID=cdb1
-      export PATH=/usr/sbin:$PATH
-      export PATH=$ORACLE_HOME/bin:$PATH
-      export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib
-      export CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
 
 - name: Install Oracle
   block: 

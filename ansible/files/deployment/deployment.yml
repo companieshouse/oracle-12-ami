@@ -33,3 +33,24 @@
         ansible.builtin.hostname:
           name: "{{ instance_tags.tags.Name }}.{{ instance_tags.tags.Domain }}"
           use: systemd
+
+      - name: Template oracle profile
+        ansible.builtin.blockinfile:
+          dest: "/home/oracle/.bash_profile"
+          owner: oracle
+          group: oracle
+          mode: '0640'
+          block: |
+            export TMP=/tmp
+            export TMPDIR=$TMP
+            export ORACLE_HOSTNAME={{ instance_tags.Name }}.{{ instance_tags.Domain }}
+            export ORACLE_UNQNAME={{ instance_tags.UNQNAME }}
+            export ORACLE_BASE=/u01/app/oracle
+            export ORACLE_HOME=$ORACLE_BASE/product/12.1.0.2/db_1
+            export ORACLE_SID={{ instance_tags.SID }}
+            export PATH=/usr/sbin:$PATH
+            export PATH=$ORACLE_HOME/bin:$PATH
+            export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib
+            export LD_LIBRARY_PATH=/u01/app/oracle/product/12.1.0.2/db_1/lib32
+            export LD_LIBRARY_PATH_64=/u01/app/oracle/product/12.1.0.2/db_1/lib
+            export CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
