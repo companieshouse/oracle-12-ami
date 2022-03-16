@@ -6,7 +6,10 @@
     - ch_collections.base
   roles:
     - role: ch_collections.base.os_package_control
+      vars:
+        update_os: "{{ update_packages | default(false) }}"
     - role: ch_collections.base.nagios_nrpe_client
+      when: not SSM
     - role: oracle-12
       vars:
         #Default to install when building AMI, and don't install in SSM runs for safety. 
