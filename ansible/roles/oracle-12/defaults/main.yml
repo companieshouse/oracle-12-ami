@@ -22,6 +22,8 @@ oracle_users:
       - oper 
       - oinstall
 
+ClientAliveCountMax: 9999
+
 oracle_prequisite_packages:
   - java-1.8.0-openjdk
   - lvm2
