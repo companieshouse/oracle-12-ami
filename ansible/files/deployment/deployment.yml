@@ -43,11 +43,11 @@
           block: |
             export TMP=/tmp
             export TMPDIR=$TMP
-            export ORACLE_HOSTNAME={{ instance_tags.Name }}.{{ instance_tags.Domain }}
-            export ORACLE_UNQNAME={{ instance_tags.UNQNAME }}
+            export ORACLE_HOSTNAME={{ instance_tags.tags.Name }}.{{ instance_tags.tags.Domain }}
+            export ORACLE_UNQNAME={{ instance_tags.tags.UNQNAME }}
             export ORACLE_BASE=/u01/app/oracle
             export ORACLE_HOME=$ORACLE_BASE/product/12.1.0.2/db_1
-            export ORACLE_SID={{ instance_tags.SID }}
+            export ORACLE_SID={{ instance_tags.tags.SID }}
             export PATH=/usr/sbin:$PATH
             export PATH=$ORACLE_HOME/bin:$PATH
             export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib
