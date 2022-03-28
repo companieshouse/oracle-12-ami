@@ -1,11 +1,7 @@
 ---
 - name: Import Deploy playbook
   import_playbook: playbook.yml
-  vars: 
-    SSM: true
 
 # When play is run from SSM, include deployment playbook so we run all stages
 - name: Import Deploy playbook
   import_playbook: files/deployment/deployment.yml
-  vars: 
-    SSM: true
