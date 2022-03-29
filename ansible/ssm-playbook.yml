@@ -27,7 +27,6 @@
   become: true
   collections:
     - ch_collections.base
-  vars:
   roles:
     - role: /root/roles/nfs_mounts
       when: mounts is defined
