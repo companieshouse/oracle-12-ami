@@ -20,14 +20,6 @@
     - role: ch_collections.heritage_services.nfs
       vars: 
         install_watcher_service: false
-
-- name: Deployment
-  hosts: localhost
-  gather_facts: true
-  become: true
-  collections:
-    - ch_collections.base
-  roles:
     - role: /root/roles/nfs_mounts
       when: mounts is defined
     - name: ch_collections.base.cloudwatch_agent_config
