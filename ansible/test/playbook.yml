@@ -14,6 +14,7 @@
     - role: provision_docker
       provision_docker_inventory: "{{ inventory }}"
       provision_docker_privileged: True
+      check_mode: no
 
 - hosts: oracle-12
   become: true
@@ -25,6 +26,7 @@
         section: powertools
         option: enabled
         value: "1"
+      check_mode: no
     - name: Install required packages not present from base AMI
       yum:
         name: "{{ item }}"
@@ -33,5 +35,6 @@
         - git
         - sudo
         - python39
+      check_mode: no
 
 - import_playbook: ../playbook.yml
