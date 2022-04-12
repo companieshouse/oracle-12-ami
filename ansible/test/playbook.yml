@@ -5,7 +5,7 @@
   vars:
     inventory:
       - name: oracle-12
-        image: "geerlingguy/docker-centos8-ansible"
+        image: "rockylinux:8.5"
         network_mode: bridge
         provision_docker_volumes: 
           - /lib/modules:/lib/modules
@@ -19,15 +19,19 @@
   become: true
   gather_facts: yes
   pre_tasks:
-    - name: Updating System Packages Before Ansible Run
-      yum:
-        name: '*'
-        state: latest
+    - name: Enable Rocky Linux Power Tools Repo
+      ini_file:
+        path: /etc/yum.repos.d/Rocky-PowerTools.repo
+        section: powertools
+        option: enabled
+        value: "1"
     - name: Install required packages not present from base AMI
       yum:
         name: "{{ item }}"
         state: present
       loop:
         - git
+        - sudo
+        - python39
 
 - import_playbook: ../playbook.yml
