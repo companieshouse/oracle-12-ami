@@ -33,6 +33,33 @@
     name: "{{ oracle_prequisite_packages }}"
     state: present
 
+- name: Create DBA Group
+  ansible.builtin.group:
+    name: DBA
+    state: present
+   
+- name: Allow 'DBA' group to sudo
+  copy:
+    content: |
+              %DBA ALL=(ALL) NOPASSWD: ALL
+    dest: /etc/sudoers.d/DBA
+
+- name: Adding DBA users
+  ansible.builtin.user:
+    name: "{{ item.username }}"
+    shell: /bin/bash
+    groups: "DBA"
+    append: yes
+    expires: -1
+  loop: "{{ users }}"
+
+- name: Adding user public keys
+  authorized_key:
+    user: "{{ item.username }}"
+    state: present
+    key: "{{ item.pub_ssh_key }}"
+  loop: "{{ users }}"
+
 - name: Remove default session timeouts
   ansible.builtin.file: 
     name: /etc/profile.d/tmout.sh
@@ -182,4 +209,4 @@
       loop: 
         - "/u01/app/oraInventory/orainstRoot.sh"
         - "/u01/app/oracle/product/12.1.0.2/db_1/root.sh"
-  when: install_oracle
+  when: (ansible_virtualization_type != "docker") and ( install_oracle )
