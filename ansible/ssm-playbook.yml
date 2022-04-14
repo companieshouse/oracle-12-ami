@@ -8,8 +8,6 @@
     - role: ch_collections.base.os_package_control
       vars:
         update_os: "{{ update_packages | default(false) }}"
-    - role: ch_collections.base.nagios_nrpe_client
-      when: not SSM
     - role: oracle-12
       vars:
         #Default to install when building AMI, and don't install in SSM runs for safety. 
@@ -40,7 +38,7 @@
         regex: "^{{ item | regex_escape() }}.*$"
         path: "/etc/hosts"
       loop:
-        - "{{ ansible_facts['all_ipv4_addresses'] }}"
+        - "{{ ansible_facts['default_ipv4']['address'] }}"
 
     - name: Set Hostname (2/2)
       ansible.builtin.hostname:
