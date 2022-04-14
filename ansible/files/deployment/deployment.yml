@@ -27,7 +27,7 @@
           regex: "^{{ item | regex_escape() }}.*$"
           path: "/etc/hosts"
         loop:
-          - "{{ ansible_facts['all_ipv4_addresses'] }}"
+          - "{{ ansible_facts['default_ipv4']['address'] }}"
 
       - name: Set Hostname (2/2)
         ansible.builtin.hostname:

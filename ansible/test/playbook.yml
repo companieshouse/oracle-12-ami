@@ -35,6 +35,7 @@
         - git
         - sudo
         - python39
+        - iproute
       check_mode: no
 
-- import_playbook: ../playbook.yml
+- import_playbook: ../ssm-playbook.yml
