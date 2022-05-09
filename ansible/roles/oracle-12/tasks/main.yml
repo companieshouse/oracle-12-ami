@@ -75,7 +75,10 @@
 - name: Allow oracle user to use cron
   lineinfile:
     destfile: /etc/cron.allow
-    line: "oracle"
+    line: "{{ item }}"
+  loop:
+    - "oracle"
+    - "root"
 
 - name: Create Oracle sysctl config
   ansible.builtin.template:
