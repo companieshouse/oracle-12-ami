@@ -72,6 +72,14 @@
     path: /etc/ssh/sshd_config
     regexp: '^ClientAliveCountMax.*$'
 
+- name: Allow oracle user to use cron
+  lineinfile:
+    destfile: /etc/cron.allow
+    line: "{{ item }}"
+  loop:
+    - "oracle"
+    - "root"
+
 - name: Create Oracle sysctl config
   ansible.builtin.template:
     src: files/98-oracle.conf
