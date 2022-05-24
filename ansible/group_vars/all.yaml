@@ -2,6 +2,8 @@
 additional_packages: 
   - xorg-x11-xauth
   - xclock
+  - mailx
+  - postfix
 
 users: 
   - username: jonh
