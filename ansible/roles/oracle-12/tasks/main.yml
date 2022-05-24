@@ -141,6 +141,18 @@
     enabled: no
   when: ansible_virtualization_type != "docker"
 
+- name: Update Postfix for correct domain
+  ansible.builtin.lineinfile:  
+    path: /etc/postfix/main.cf
+    line: "mydomain = companieshouse.gov.uk"
+    regexp: '^#mydomain = domain.tld'
+
+- name: Update Postfix for correct SMTP relay
+  ansible.builtin.lineinfile:  
+    path: /etc/postfix/main.cf
+    line: "relayhost = smtp-outbound.sharedservices.aws.internal"
+    regexp: '#relayhost = $mydomain'
+
 - name: Put SELinux in permissive mode, logging actions that would be blocked.
   ansible.posix.selinux:
     policy: targeted
@@ -219,3 +231,25 @@
         - "/u01/app/oraInventory/orainstRoot.sh"
         - "/u01/app/oracle/product/12.1.0.2/db_1/root.sh"
   when: (ansible_virtualization_type != "docker") and ( install_oracle )
+
+- name: "Setup AFD Postcode lookup library (OLTP only)"
+  block:
+    - name: Copy files
+      amazon.aws.aws_s3:
+        bucket: "{{ aws_s3_release_bucket }}"
+        object: "pcplus/pcplus_linux64.tar.gz"
+        dest: "/tmp/pcplus_linux64.tar.gz"
+        mode: get
+        overwrite: different
+        aws_access_key: "{{ aws_s3_release_bucket_access_key | default(omit) }}"
+        aws_secret_key: "{{ aws_s3_release_bucket_secret_key | default(omit) }}"
+
+    - name: Unarchive files 
+      ansible.builtin.unarchive:
+        remote_src: yes
+        src: "/tmp/pcplus_linux64.tar.gz"
+        dest: "/opt/pcplus/lib_linux64/"
+        mode: 0664
+        owner: root
+        group: root
+  when: (ansible_virtualization_type != "docker") and ( install_postcode ) 
