@@ -255,7 +255,7 @@
       ansible.builtin.unarchive:
         remote_src: yes
         src: "/tmp/pcplus_linux64.tar.gz"
-        dest: "/opt/pcplus/lib_linux64/"
+        dest: "/opt/pcplus/"
         mode: 0664
         owner: root
         group: root
