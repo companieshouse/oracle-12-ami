@@ -5,6 +5,7 @@ additional_packages:
   - mailx
   - postfix
 
+
 users: 
   - username: jonh
     pub_ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAgEAiD2IqLzxKKjskSnmt2+Vmk0OBNjwu9no144T4sleIWuRKRnKbPppKoeHclTR40tg0Q1L+DesvK0/O6TiuhoTOGJLljzPD1KvN5B8cmtUEgVr0QT/7JPSpFLW0BU+ZbWHiSqLDwCybpZdV6XlR5aV63K4JpmbGSSM6N6Xj1fVUZoXrQGOciNDF5kOInfCHDYN4ZldlQY+G9kZUwJ1whwEHbahNBQ2SvQlVD/BNGUHsS3GSHf9UXvM/McrrcNjF98/ysZNx/N72Q2QQ+hWebUvajwNljC9EzxZF4m1RTVWQV+yJuTLxM5G0zVNEBJNK4SsN0f/yItV5ClxFP8fKWNaiF5wherTo1A69jwz+jCIHf2xl1v1jE8TeqBTW8c6ZVSygsFqlYTy+KykD08QOgoPljUYMF0e/Dp6g6VkD1geBnXDeezEmnPR2325KgSKpPuwKs6CIqLD4Zet14MtcjsTGAHKKQsstHAJQF0LiwLfhiUkdN/Tb8TaMgAcwjOs0eixcuYmRt/rWkzei8ndDbKc6bzEmGOm/JXBseSHPZsTGs4dKaLVLSACZv2rNeIqc66g7NvW6/XFntO4mjJGD4qSj9cK3xAjRq2S0SGd2SEBx7R88ziol6bgh1SlDZH+Q4D0e/bi38cQ0YkjCDFPaHToDj24LDlOII1+zeYZzIUY4Rs=
@@ -19,3 +20,4 @@ users:
 
 #Variable to control flow of playbook, false assumes running in AMI build mode, true is for run via SSM on live server.
 SSM: false
+install_postcode: false
