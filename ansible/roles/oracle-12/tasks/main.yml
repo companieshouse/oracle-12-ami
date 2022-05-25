@@ -146,12 +146,14 @@
     path: /etc/postfix/main.cf
     line: "mydomain = companieshouse.gov.uk"
     regexp: '^#mydomain = domain.tld'
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Update Postfix for correct SMTP relay
   ansible.builtin.lineinfile:  
     path: /etc/postfix/main.cf
     line: "relayhost = smtp-outbound.sharedservices.aws.internal"
     regexp: '#relayhost = $mydomain'
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Put SELinux in permissive mode, logging actions that would be blocked.
   ansible.posix.selinux:
