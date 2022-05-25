@@ -236,6 +236,11 @@
 
 - name: "Setup AFD Postcode lookup library (OLTP only)"
   block:
+    - name: ensure tomcat directory exists
+      file:
+        path: /opt/pcplus/lib_linux64/
+        state: directory
+
     - name: Copy files
       amazon.aws.aws_s3:
         bucket: "{{ aws_s3_release_bucket }}"
