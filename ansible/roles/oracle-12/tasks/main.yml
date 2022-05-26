@@ -238,7 +238,7 @@
   block:
     - name: ensure pcplus directory exists
       file:
-        path: /opt/pcplus/lib_linux64/
+        path: /opt/pcplus/
         state: directory
 
     - name: Copy files
