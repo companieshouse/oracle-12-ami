@@ -4,17 +4,6 @@
     name: ['boto', 'boto3', 'botocore']
     umask: "0022"
 
-- name: Create RHEL8 Oracle Linux repo
-  yum_repository:
-    name: "oraclelinux8"
-    description: ol8_latest
-    file: ol8-temp
-    baseurl: http://yum.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64
-    gpgcheck: yes
-    gpgkey: "https://yum.oracle.com/RPM-GPG-KEY-oracle-ol8"
-    enabled: yes
-    state: present
-
 - name: Upgrade all OS packages
   ansible.builtin.dnf:
     name: "*"
@@ -23,11 +12,6 @@
     security: "{{ update_only_security_packages }}"
   when: update_packages
     
-- name: Install Oracle Linux 8 Release Repo
-  ansible.builtin.dnf:
-    name: "oraclelinux-release-el8"
-    state: present
-
 - name: Install pre-req packages
   ansible.builtin.dnf:
     name: "{{ oracle_prequisite_packages }}"
