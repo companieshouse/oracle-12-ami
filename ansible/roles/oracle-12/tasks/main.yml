@@ -139,6 +139,12 @@
     regexp: '#relayhost = $mydomain'
   ignore_errors: "{{ ansible_check_mode }}"
 
+- name: Enable postfix
+  ansible.builtin.systemd:
+    name: postfix
+    state: started
+    enabled: yes
+      
 - name: Put SELinux in permissive mode, logging actions that would be blocked.
   ansible.posix.selinux:
     policy: targeted
