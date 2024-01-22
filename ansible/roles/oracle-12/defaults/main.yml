@@ -67,6 +67,8 @@ oracle_prequisite_packages:
   - libXext.i686
   - libibverbs
   - make
+  - perl-Math-BigInt.noarch
+  - perl-Net-Ping.noarch
   - smartmontools
   - sysstat
   - wget
