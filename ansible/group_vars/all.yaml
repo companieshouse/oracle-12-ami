@@ -2,6 +2,8 @@
 additional_packages: 
   - xorg-x11-xauth
   - mailx
+  - perl-Math-BigInt.noarch
+  - perl-Net-Ping.noarch
   - postfix
 
 
